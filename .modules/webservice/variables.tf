@@ -77,3 +77,9 @@ variable "rolling_updates" {
   default     = false
   type        = bool
 }
+
+variable "public_task" {
+  description = "Run the Fargate task in a public subnet with a public IP, removing the need for a NAT gateway"
+  default     = false
+  type        = bool
+}

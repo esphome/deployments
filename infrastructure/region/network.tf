@@ -30,7 +30,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_eip" "nat" {
-  count = 2
+  count = var.enable_nat_gateway ? 2 : 0
 
   vpc = true
 
@@ -42,7 +42,7 @@ resource "aws_eip" "nat" {
 }
 
 resource "aws_nat_gateway" "gw_nat" {
-  count = 2
+  count = var.enable_nat_gateway ? 2 : 0
 
   allocation_id = aws_eip.nat[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
@@ -53,7 +53,7 @@ resource "aws_nat_gateway" "gw_nat" {
 }
 
 resource "aws_route_table" "private" {
-  count = 2
+  count = var.enable_nat_gateway ? 2 : 0
 
   vpc_id = aws_vpc.network.id
 
