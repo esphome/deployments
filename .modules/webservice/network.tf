@@ -33,16 +33,17 @@ resource "aws_security_group" "container_sg" {
   }
 
   ingress {
-    description = "Web traffic"
-    from_port   = var.port
-    protocol    = "tcp"
-    to_port     = var.port
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = var.public_task ? "Web traffic from ALB only" : "Web traffic"
+    from_port       = var.port
+    protocol        = "tcp"
+    to_port         = var.port
+    security_groups = var.public_task ? [aws_security_group.lb_sg.id] : []
+    cidr_blocks     = var.public_task ? [] : ["0.0.0.0/0"]
   }
 
   tags = {
     Region = var.region
-    Zone   = "private"
+    Zone   = var.public_task ? "public" : "private"
   }
 }
 

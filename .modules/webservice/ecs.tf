@@ -9,8 +9,9 @@ resource "aws_ecs_service" "webservice" {
   launch_type                        = var.launch_type
 
   network_configuration {
-    subnets         = data.tfe_outputs.infrastructure.values[var.region].private_subnets
-    security_groups = [aws_security_group.container_sg.id]
+    subnets          = var.public_task ? data.tfe_outputs.infrastructure.values[var.region].public_subnets : data.tfe_outputs.infrastructure.values[var.region].private_subnets
+    security_groups  = [aws_security_group.container_sg.id]
+    assign_public_ip = var.public_task
   }
 
   depends_on = [

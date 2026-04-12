@@ -33,6 +33,7 @@ module "webservice_service_hub_bots" {
   port              = 5000
   healthcheck_path  = "/__heartbeat__"
   rolling_updates   = true
+  public_task       = true
 
   container_definitions = {
     "command" : [
