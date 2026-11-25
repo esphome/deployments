@@ -84,7 +84,7 @@ resource "aws_lb_target_group" "internal" {
   protocol             = "HTTP"
   vpc_id               = data.tfe_outputs.infrastructure.values[var.region].network_id
   target_type          = "ip"
-  deregistration_delay = 600
+  deregistration_delay = 30
 
 
   health_check {
